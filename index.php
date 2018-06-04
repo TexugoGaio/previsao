@@ -24,7 +24,7 @@
         <nav class="navbar navbar-inverse navbar-fixed-top" style="padding-bottom: 10px;" >
             <div id="header" class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" style="margin-top:10px" href="#">MeuClima</a>
+                    <a class="navbar-brand" style="margin-top:10px" href="index.php">MeuClima</a>
                 </div>
                 <ul class="nav navbar-nav" >
                 </ul>
@@ -41,12 +41,22 @@
             </div>
 
             <div id="jumbo2" class="jumbotron" style="margin-top:200px; display:none;">
-                <form action="" method="get" onsubmit="mandarRequisicao()">
-                    <div class="form-group">
+                
+
+                    <div id="form1" class="form-group">
+                        <p id="p1">Primeiro, insira o nome da sua cidade ou parte dele.</p>
                         <label for="cidade">Cidade:</label>
-                        <input type="text" class="form-control" id="cidade" placeholder="Digite sua cidade" name="cidade">
+                        <input type="text" require class="form-control" id="inputCidade" placeholder="Digite sua cidade" name="inputCidade">
+                        <button type="submit" onclick="mandarCidade()" class="btn btn-primary btn-lg" style="margin-top:30px;" >Enviar</button>
                     </div>
-                </form>
+                    
+                    <div id="form2" class="form-group" style="display:none">
+                        <p id="p1">Depois, selecione corretamente sua cidade.</p>
+                        <label for="cidades">Selecione a cidade:</label>
+                        <select name="selectCidade" id="selectCidade" class="form-control">   
+                        </select>
+                        <button type="submit" onclick="mandarRequisicao()" class="btn btn-primary btn-lg" style="margin-top:30px;" >Enviar</button>
+                    </div>
             </div>
         </div>
 
