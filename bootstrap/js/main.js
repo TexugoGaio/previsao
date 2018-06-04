@@ -1,21 +1,21 @@
-function mostraDiv(id,div){
+function mostraDiv(id, div) {
     var div1;
     var div2;
 
     div1 = document.getElementById(id).style.display;
     div2 = document.getElementById(div).style.display;
 
-    if(div2=="none" || div2== ""){
+    if (div2 == "none" || div2 == "") {
         document.getElementById(div).style.display = "block";
     }
 
-    document.getElementById(id).style.display = "none"; 
-	return false;
+    document.getElementById(id).style.display = "none";
+    return false;
 }
 
 
 
-function mandarCidade(){
+function mandarCidade() {
     var cidade;
     cidade = document.getElementById("inputCidade").value;
 
@@ -23,14 +23,14 @@ function mandarCidade(){
     url = 'http://servicos.cptec.inpe.br/XML/listaCidades?city=' + cidade
 
     var request = new XMLHttpRequest();
-    request.onreadystatechange = function(){
+    request.onreadystatechange = function() {
         if (this.readyState == 4) {
             console.log(request.responseXML);
             var docXML = request.responseXML;
             var i = 0;
             const tam = docXML.getElementsByTagName('cidade').length;
 
-            while(i < tam){
+            while (i < tam) {
                 //cidade
                 let nome = docXML.childNodes[0].childNodes[i].childNodes[0].innerHTML;
                 console.log(nome);
@@ -56,14 +56,59 @@ function mandarCidade(){
         }
     };
 
-    request.open('GET',url, true);
+    request.open('GET', url, true);
     request.send();
 }
 
-function mandarRequisicao(){
+function mandarRequisicao() {
     let idCidade = document.getElementById("selectCidade").value;
+    let categoria = document.getElementById("selectCategoria").value;
     console.log(idCidade);
 
-    
-}
+    const url4 = "http://servicos.cptec.inpe.br/XML/cidade/" + idCidade + "/previsao.xml";
+    const url7 = "http://servicos.cptec.inpe.br/XML/cidade/7dias/" + idCidade + "/previsao.xml";
+    const url14 = "http://servicos.cptec.inpe.br/XML/cidade/" + idCidade + "/estendida.xml";
 
+    if (categoria == 4) {
+        //***PREVISÃO PARA 4 DIAS
+        const request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+            if (this.readyState == 4) {
+
+            }
+
+        };
+        request.open('GET', url4, true);
+        request.send();
+
+        //******************************************* */
+    } else if (categoria == 7) {
+        //PREVISÃO PARA 7 DIAS
+        const request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+            if (this.readyState == 4) {
+
+            }
+
+        };
+        request.open('GET', url7, true);
+        request.send();
+
+        //******************************************* */
+    } else if (categoria == 14) {
+        //PREVISÃO PARA 14 DIAS
+        const request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+            if (this.readyState == 4) {
+
+            }
+
+        };
+        request.open('GET', url14, true);
+        request.send();
+
+        //******************************************* */
+    }
+
+
+}
