@@ -1,5 +1,19 @@
 let urlFoto;
 let headPrevisao;
+
+$(document).ready(function(){
+    var images=['/previsao/imagens/sol.jpg',
+                '/previsao/imagens/chuva.jpg',
+                '/previsao/imagens/neve.jpg',
+                '/previsao/imagens/nublado.jpg',];
+    
+    var randomNumber = Math.floor(Math.random() * images.length);
+    var bgImg = 'url(' + images[randomNumber] + ')';
+    
+    $('body').css({'background':bgImg, 'background-size':'cover', });
+    
+});
+
 function mostraDiv(id, div) {
     var div1;
     var div2;
@@ -71,7 +85,7 @@ function descobrirTempo(tempo){
     } else if(tempo == "ps" || tempo == "cl" || tempo == "nd"){
         t = "Ensolarado";
         urlFoto = "/previsao/imagens/sol.icon.png";
-        headPrevisao = "Probabilidade de sol";
+        headPrevisao = "Estará ensolarado";
 
     }else if(tempo == "ne"){
         t = "Neve";
@@ -81,10 +95,10 @@ function descobrirTempo(tempo){
     }else{
         t = "Chuva";
         urlFoto = "/previsao/imagens/chuva.icon.png";
-        headPrevisao = "Probabilidade de chuva";
+        headPrevisao = "Possibilidade de chuva";
     }
 
-    return t;
+    return headPrevisao;
 }
 
 function mandarRequisicao() {
@@ -106,8 +120,8 @@ function mandarRequisicao() {
                 const tam = 7;
 
                 while(i < tam){
-                    let cidade = docXML.childNodes[0].childNodes[0].childNodes[0].innerHTML;
-                    let estado = docXML.childNodes[0].childNodes[1].childNodes[0].innerHTML;
+                    let cidade = docXML.childNodes[0].childNodes[0].innerHTML;
+                    let estado = docXML.childNodes[0].childNodes[1].innerHTML;
                     let dia = docXML.childNodes[0].childNodes[i].childNodes[0].innerHTML;
                     let tempo = docXML.childNodes[0].childNodes[i].childNodes[1].innerHTML;
                     let max = docXML.childNodes[0].childNodes[i].childNodes[2].innerHTML;
@@ -115,31 +129,62 @@ function mandarRequisicao() {
                     let x = i-2;
                     let t = descobrirTempo(tempo);
 
-                    $('#tabPrevisao ul').append("<li><a data-toggle='tab' href='#menu'" + x + ">" + dia + "</a></li>");
-                    $('#tabConteudo').append(
-                        $('<div>',{
-                            id:"menu" + x,
-                            class:"tab-pane fade"}).append(
-                                $('<h3>')))
-                    $('#tabConteudo').append(
-                    "<div id='menu'"+ x +" class='tab-pane fade'>" +
-                        "<div class='col-sm-1'></div>" +
-                        "<div class='col-sm-8'>" +
-                            "<div class='media' style='margin-top:80px;'>" + 
-                                "<div class='media-left media-top'>" + 
-                                    "<img id='fotoPrevisao' class='media-object' src='"+ urlFoto +"'>" +
-                                "</div>" +
-                                "<div class='media-body'>" +
-                                    "<h1 style='margin-top:20px; margin-left:50px;' class='media-heading' id='headPrevisao'>" + t + "</h1>" +
-                                    "<h2 style='margin-top:20px; margin-left:50px;' id='cidade' class='media-heading'>" + cidade + " - " + estado + "</h2>" +
-                                "</div>" +
-                                "<h3 style='margin-top:50px;' id='max' class='media-heading'>" + max + "</h3>" +
-                                "<h3 style='margin-top:10px;' id='min' class='media-heading' >" + min + "</h3>" +
-                            "</div>"+
-                        "</div>" +
-                        "<div class='col-sm-3'></div>" +
-                    "</div>");
+                    document.getElementById('form2').style.display = "none";
+                    if(x==1){
+                        $('#tabPrevisao ul').append("<li class='active'><a data-toggle='tab' href='#menu" + x + "'>" + dia + "</a></li>");
 
+                        $('#tabPrevisao').append($('#tabConteudo').append(
+                            "<div id='menu" + x + "' class='tab-pane fade in active'>" +
+                            
+                                "<div class='media' style='margin-top:80px;'>" +
+                                    "<div class='col-sm-1'></div>" +
+                                    "<div class='col-sm-6'>" +
+                                        "<div class='media-body'>" +
+                                            "<h2 style='margin-top:10px; margin-left:50px;' class='media-heading' id='headPrevisao'>" + t + "</h2>" +
+                                            "<h3 style='margin-top:20px; margin-left:50px;' id='cidade' class='media-heading'>" + cidade + " - " + estado + "</h3>" +
+                                            "<h4 style='margin-top:30px; margin-left:100px;' id='max' class='media-heading'>Máxima: " + max + "ºC</h4>" +
+                                            "<h4 style='margin-top:10px; margin-left:100px;' id='min' class='media-heading' >Mínima: " + min + "ºC</h4>" +
+                                        "</div>" +
+                                    "</div>" +
+                                    "<div class='col-sm-5'>" +
+                                        "<div class='media-right'>" +
+                                            "<img id='fotoPrevisao' class='media-object' src='" + urlFoto + "'>" +
+                                        "</div>" +
+                                    "</div>" +
+                                    
+                                    
+                                    
+                                "</div>" +
+                            
+                            "</div>"));
+                    }else{
+                        $('#tabPrevisao ul').append("<li><a data-toggle='tab' href='#menu" + x + "'>" + dia + "</a></li>");
+
+                        $('#tabPrevisao').append($('#tabConteudo').append(
+                            "<div id='menu" + x + "' class='tab-pane fade'>" +
+                            
+                                "<div class='media' style='margin-top:80px;'>" +
+                                    "<div class='col-sm-1'></div>" +
+                                    "<div class='col-sm-6'>" +
+                                        "<div class='media-body'>" +
+                                            "<h2 style='margin-top:10px; margin-left:50px;' class='media-heading' id='headPrevisao'>" + t + "</h2>" +
+                                            "<h3 style='margin-top:20px; margin-left:50px;' id='cidade' class='media-heading'>" + cidade + " - " + estado + "</h3>" +
+                                            "<h4 style='margin-top:30px; margin-left:100px;' id='max' class='media-heading'>Máxima: " + max + "ºC</h4>" +
+                                            "<h4 style='margin-top:10px; margin-left:100px;' id='min' class='media-heading' >Mínima: " + min + "ºC</h4>" +
+                                        "</div>" +
+                                    "</div>" +
+                                    "<div class='col-sm-5'>" +
+                                        "<div class='media-right media-bottom'>" +
+                                            "<img id='fotoPrevisao' class='media-object' src='" + urlFoto + "'>" +
+                                        "</div>" +
+                                    "</div>" +
+                                    
+                                    
+                                    
+                                "</div>" +
+                            
+                            "</div>"));
+                        }
                     i++;
                 }
             }
@@ -155,23 +200,81 @@ function mandarRequisicao() {
         request.onreadystatechange = function() {
             if (this.readyState == 4) {
                 let docXML = request.responseXML;
+                let i = 3;
+                const tam = 10;
+
+                while(i < tam){
+                    let cidade = docXML.childNodes[0].childNodes[0].innerHTML;
+                    let estado = docXML.childNodes[0].childNodes[1].innerHTML;
+                    let dia = docXML.childNodes[0].childNodes[i].childNodes[0].innerHTML;
+                    let tempo = docXML.childNodes[0].childNodes[i].childNodes[1].innerHTML;
+                    let max = docXML.childNodes[0].childNodes[i].childNodes[2].innerHTML;
+                    let min = docXML.childNodes[0].childNodes[i].childNodes[3].innerHTML;
+                    let x = i-2;
+                    let t = descobrirTempo(tempo);
+
+                    document.getElementById('form2').style.display = "none";
+                    if(x==1){
+                        $('#tabPrevisao ul').append("<li class='active'><a data-toggle='tab' href='#menu" + x + "'>" + dia + "</a></li>");
+
+                        $('#tabPrevisao').append($('#tabConteudo').append(
+                            "<div id='menu" + x + "' class='tab-pane fade in active'>" +
+                            
+                                "<div class='media' style='margin-top:80px;'>" +
+                                    "<div class='col-sm-1'></div>" +
+                                    "<div class='col-sm-6'>" +
+                                        "<div class='media-body'>" +
+                                            "<h2 style='margin-top:10px; margin-left:50px;' class='media-heading' id='headPrevisao'>" + t + "</h2>" +
+                                            "<h3 style='margin-top:20px; margin-left:50px;' id='cidade' class='media-heading'>" + cidade + " - " + estado + "</h3>" +
+                                            "<h4 style='margin-top:30px; margin-left:100px;' id='max' class='media-heading'>Máxima: " + max + "ºC</h4>" +
+                                            "<h4 style='margin-top:10px; margin-left:100px;' id='min' class='media-heading' >Mínima: " + min + "ºC</h4>" +
+                                        "</div>" +
+                                    "</div>" +
+                                    "<div class='col-sm-5'>" +
+                                        "<div class='media-right'>" +
+                                            "<img id='fotoPrevisao' class='media-object' src='" + urlFoto + "'>" +
+                                        "</div>" +
+                                    "</div>" +
+                                    
+                                    
+                                    
+                                "</div>" +
+                            
+                            "</div>"));
+                    }else{
+                        $('#tabPrevisao ul').append("<li><a data-toggle='tab' href='#menu" + x + "'>" + dia + "</a></li>");
+
+                        $('#tabPrevisao').append($('#tabConteudo').append(
+                            "<div id='menu" + x + "' class='tab-pane fade'>" +
+                            
+                                "<div class='media' style='margin-top:80px;'>" +
+                                    "<div class='col-sm-1'></div>" +
+                                    "<div class='col-sm-6'>" +
+                                        "<div class='media-body'>" +
+                                            "<h2 style='margin-top:10px; margin-left:50px;' class='media-heading' id='headPrevisao'>" + t + "</h2>" +
+                                            "<h3 style='margin-top:20px; margin-left:50px;' id='cidade' class='media-heading'>" + cidade + " - " + estado + "</h3>" +
+                                            "<h4 style='margin-top:30px; margin-left:100px;' id='max' class='media-heading'>Máxima: " + max + "ºC</h4>" +
+                                            "<h4 style='margin-top:10px; margin-left:100px;' id='min' class='media-heading' >Mínima: " + min + "ºC</h4>" +
+                                        "</div>" +
+                                    "</div>" +
+                                    "<div class='col-sm-5'>" +
+                                        "<div class='media-right'>" +
+                                            "<img id='fotoPrevisao' class='media-object' src='" + urlFoto + "'>" +
+                                        "</div>" +
+                                    "</div>" +
+                                    
+                                    
+                                    
+                                "</div>" +
+                            
+                            "</div>"));
+                        }
+                    i++;
+                }
             }
 
         };
         request.open('GET', url7, true);
-        request.send();
-
-        //******************************************* */
-    } else if (categoria == 14) {
-        //PREVISÃO PARA 14 DIAS
-        const request = new XMLHttpRequest();
-        request.onreadystatechange = function() {
-            if (this.readyState == 4) {
-                let docXML = request.responseXML;
-            }
-
-        };
-        request.open('GET', url14, true);
         request.send();
 
         //******************************************* */
